@@ -1,25 +1,15 @@
 ## Quick Start
 
-Add a "configs" 1 level up from your project root:
+Copy "example.env" to ".env" and edit it accordingly
+
+Then build and run your container:
    
 ```
-cd..
-mkdir configs
-```
-   
-Copy example_app_configs.json into the configs folder and edit as necessary
-   
-Migrate:
-   
- ```
- python manage.py migrate
+docker compose up
 ```
 
-Create a super user:
+Migrate by logging into your docker image and running 
 
 ```
-python manage.py createsuperuser
+python manage.py migrate
 ```
-
-With that super user go to /admin and find Social Applications. You will need to add a Google and Apple application. 
-Provider, Name, Client ID, and the site are all required.
