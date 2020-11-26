@@ -23,4 +23,8 @@ six==1.15.0
 social-auth-core==3.3.3
 sqlparse==0.4.1
 urllib3==1.26.1
+celery
+redis
 gunicorn
+python-dateutil
+stripe
