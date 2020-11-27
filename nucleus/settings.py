@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import datetime
 import json
 import os
+from celery.schedules import crontab
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -40,6 +41,11 @@ DATABASES = {
 }
 ENV = os.environ.get('ENVIRONMENT', default='DEV')
 SECRET_KEY = os.environ.get('SECRET')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_ENDPOINT_SECRET = os.environ.get('STRIPE_ENDPOINT_SECRET')
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+STRIPE_PRICE_ID = os.environ.get('STRIPE_PRICE_ID')
+FRONTEND_DOMAIN = os.environ.get('FRONTEND_DOMAIN')
 ALLOWED_HOSTS = ['*']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -63,6 +69,7 @@ THIRD_PARTY_APPS = [
 
 PROJECT_APPS = [
     'accounts',
+    'subscriptions'
 ]
 
 INSTALLED_APPS = [
@@ -138,6 +145,18 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+CELERY_BROKER_URL = 'redis://redis:6379'
+CELERY_RESULT_BACKEND = 'redis://redis:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULE = {
+    'hello': {
+        'task': 'subscriptions.tasks.hello',
+        'schedule': crontab(minute=0, hour=12)  # execute day at noon
+    }
+}
 
 AUTH_USER_MODEL = 'accounts.User'
 
