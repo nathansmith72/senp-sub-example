@@ -152,8 +152,8 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
-    'hello': {
-        'task': 'subscriptions.tasks.hello',
+    'start_payment_tasks': {
+        'task': 'subscriptions.tasks.start_payment_tasks',
         'schedule': crontab(minute=0, hour=12)  # execute day at noon
     }
 }
